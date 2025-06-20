@@ -32,4 +32,4 @@ const deleteById = async (id) => {
   const data = await readData();
   await saveChanges(data.filter((current) => current.id !== id));
 };
-export { getAll, getById, create, updateById, deleteById };
+export { getAll, getById, create, updateById, deleteById }
