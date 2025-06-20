@@ -89,6 +89,7 @@ describe("store", () => {
       expect(item).toBeUndefined();
     });
 
+    
     it("Should delete the item from the db", async () => {
       await deleteById(existingId);
       const items = await getAll();
