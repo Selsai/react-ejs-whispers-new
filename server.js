@@ -1,33 +1,25 @@
+// server.js
 import express from "express";
 import bodyParser from "body-parser";
-import { getAll, getById, create, updateById, deleteById } from "./store.js";
+import { getAll } from "./store.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
 const app = express();
 
-app.use(express.static("public"));
+// Configurer __dirname pour ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middleware
 app.use(bodyParser.json());
-app.set('view engine', 'ejs')
+app.use(express.static(path.join(__dirname, "public")));
+app.set("view engine", "ejs");
 
-app.get('/about', async (req, res) => {
-const whispers = await getAll()
-res.render('about', { whispers })
-})
-
-app.get("/api/v1/whisper", async (req, res) => {
+// Route /about
+app.get("/about", async (req, res) => {
   const whispers = await getAll();
-  res.json(whispers);
+  res.render("about", { whispers });
 });
-app.get("/api/v1/whisper/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  res.json({ id });
-});
-app.post("/api/v1/whisper", (req, res) => {
-  res.status(201).json(req.body);
-});
-app.put("/api/v1/whisper/:id", (req, res) => {
-  //const id = parseInt(req.params.id)
-  res.sendStatus(200);
-});
-app.delete("/api/v1/whisper/:id", (req, res) => {
-  res.sendStatus(200);
-});
+
 export { app };
